@@ -1,5 +1,16 @@
-@main def hello: Unit =
-  println("Hello world!")
-  println(msg)
+import zhttp.service.Server
+import zio._
+import com.assembly.talk.endpoint.GreeterEndPoint
 
-def msg = "I was compiled by Scala 3. :)"
+package com.assembly.talk.main:
+  object MainApp extends ZIOAppDefault {
+  
+    def run =
+      Server.start(
+        port = 8999,
+        http = GreeterEndPoint()
+      ).provide(
+        ZLayer.fromZIO(Ref.make(0)),
+      )
+  
+  }
